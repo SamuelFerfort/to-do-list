@@ -11,16 +11,30 @@
       <h1>To Do List</h1>
       <h3>Projects</h3>
       <ul>
-        <li>Project 1</li>
-        <li>Project 2</li>
-        <li>Project 3</li>
+       
       </ul>
       <form action class="sideForm">
-        <input class="projectName" type="text" placeholder="New Project"/>
+        <input class="projectName" type="text" placeholder="New Project" />
         <button type="submit">+</button>
       </form>
     </div>
 
     <main></main>
+    <dialog>
+      <form action class="editForm">
+        <div>
+          <input id="description" type="text" placeholder="description" />
+        </div>
+        <div>
+          <select name="priority" id="priority">
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+          <input id="taskDate" type="date" />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    </dialog>
   </body>
 </html>
