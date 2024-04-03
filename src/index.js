@@ -194,30 +194,40 @@ function displayTasks(project) {
   });
 }
 
-function populatePage() {
+const code = new Project("Code");
+
+// Add tasks to the default project
+const task1 = new Task("JavaScript", "High", "11-03-2024");
+const task2 = new Task("Python", "Medium", "11-03-2024");
+const task3 = new Task("C", "Low", "11-03-2024");
+
+code.addTask(task1);
+code.addTask(task2);
+code.addTask(task3);
+
+const gym = new Project("Gym");
+
+const gymTask1 = new Task("Cardio", "High", "11-03-2024");
+const gymTask2 = new Task("Bench Press", "Medium", "11-03-2024");
+const gymTask3 = new Task("Lifting", "Low", "11-03-2024");
+
+gym.addTask(gymTask1)
+gym.addTask(gymTask2)
+gym.addTask(gymTask3)
+
+
+function populatePage(defaultProject) {
   // Create a default project
-  const defaultProject = new Project("Default Project");
 
   const li = document.createElement("li");
   const button = document.createElement("button");
 
-  button.innerHTML = "Default";
+  button.innerHTML = defaultProject.title;
 
   ul.appendChild(li);
   li.appendChild(button);
 
-  const testDate = new Date();
-  // Format the date using date-fns
-  const formatDate = format(testDate, "MM-dd-yyyy");
-
-  // Add tasks to the default project
-  const task1 = new Task("Task 1", "High", formatDate);
-  const task2 = new Task("Task 2", "Medium", formatDate);
-  const task3 = new Task("Task 3", "Low", formatDate);
-
-  defaultProject.addTask(task1);
-  defaultProject.addTask(task2);
-  defaultProject.addTask(task3);
+  
 
   button.addEventListener("click", () => {
     main.innerHTML = "";
@@ -235,5 +245,7 @@ function populatePage() {
 
 // Call the function to populate the page when the DOM is ready
 document.addEventListener("DOMContentLoaded", function () {
-  populatePage();
+  populatePage(code);
+  populatePage(gym);
+  
 });
