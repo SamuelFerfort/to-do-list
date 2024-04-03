@@ -78,7 +78,8 @@ function createTaskForm(project) {
   const taskForm = document.createElement("form");
   taskForm.classList.add("taskForm");
   const taskDescription = document.createElement("input");
-
+  taskDescription.setAttribute("type", "text");
+  taskDescription.placeholder = "New Task";
   const dueDateInput = document.createElement("input");
   dueDateInput.setAttribute("type", "date");
   dueDateInput.setAttribute("placeholder", "Select due date");
@@ -120,7 +121,7 @@ function createTaskForm(project) {
     const dueDate = new Date(dueDateInput.value);
     if (!dueDate) return;
     // Format the date using date-fns
-    const formattedDueDate = format(dueDate, "MM dd, yyyy");
+    const formattedDueDate = format(dueDate, "MM-dd-yyyy");
 
     const task = new Task(
       taskDescription.value,
@@ -153,7 +154,7 @@ function displayTasks(project) {
         const dateEdit = new Date(date.value);
         if (!dateEdit) return;
         // Format the date using date-fns
-        const formattedDate = format(dateEdit, "MM dd, yyyy");
+        const formattedDate = format(dateEdit, "MM-dd-yyyy");
         task.editTask(description.value, priority.value, formattedDate);
         displayTasks(project);
         createTaskForm(project);
@@ -166,6 +167,7 @@ function displayTasks(project) {
     deleteBtn.addEventListener("click", () => {
       project.removeTask(task);
       displayTasks(project);
+      createTaskForm(project);
     });
     const div = document.createElement("div");
     const p = document.createElement("p");
@@ -196,9 +198,17 @@ function populatePage() {
   // Create a default project
   const defaultProject = new Project("Default Project");
 
+  const li = document.createElement("li");
+  const button = document.createElement("button");
+
+  button.innerHTML = "Default";
+
+  ul.appendChild(li);
+  li.appendChild(button);
+
   const testDate = new Date();
   // Format the date using date-fns
-  const formatDate = format(testDate, "MM dd, yyyy");
+  const formatDate = format(testDate, "MM-dd-yyyy");
 
   // Add tasks to the default project
   const task1 = new Task("Task 1", "High", formatDate);
@@ -209,7 +219,16 @@ function populatePage() {
   defaultProject.addTask(task2);
   defaultProject.addTask(task3);
 
+  button.addEventListener("click", () => {
+    main.innerHTML = "";
+
+    displayTasks(defaultProject);
+    createTaskForm(defaultProject);
+
+    document.querySelector(".projectName").value = "";
+  });
   // Display the default project and its tasks
+
   displayTasks(defaultProject);
   createTaskForm(defaultProject);
 }
