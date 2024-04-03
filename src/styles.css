@@ -39,9 +39,20 @@ h3 {
   font-size: 30px;
 }
 
-li {
+li  {
   margin: 15px 50px;
   font-size: 22px;
+}
+li button {
+    border: none;
+    background: none;
+    font-size: 22px;
+    cursor: pointer;
+
+}
+li button:hover {
+    color: yellow;
+    text-decoration: underline;
 }
 
 .sideForm {
@@ -53,7 +64,7 @@ li {
   height: 50px;
 }
 
-.sideInput {
+.projectName {
   border-radius: 16px;
   background-color: lightgray;
   height: 35px;
