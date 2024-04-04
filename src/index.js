@@ -8,7 +8,7 @@ const header = document.querySelector("header");
 const main = document.querySelector("main");
 const dialog = document.querySelector("dialog");
 const editForm = document.querySelector(".editForm");
-const priority = document.querySelector("#priority");
+const prioritySelect = document.querySelector("#priority");
 const description = document.querySelector("#description");
 const date = document.querySelector("#taskDate");
 
@@ -143,27 +143,27 @@ function displayTasks(project) {
   const tasksLeft = document.createElement("h1");
   tasksLeft.innerHTML = `${project.tasks.length} Tasks Remaining`;
   main.appendChild(tasksLeft);
-  
+
   project.tasks.forEach((task) => {
     // taskContainer
     const div = document.createElement("div");
     // taskBot includes priority delete and edit button
-    
+
     const taskBot = document.createElement("div");
     const deleteBtn = document.createElement("button");
     const editBtn = document.createElement("button");
     const priority = document.createElement("p");
-    taskBot.appendChild(priority)
-    taskBot.appendChild(editBtn)
-    taskBot.appendChild(deleteBtn)
-    taskBot.classList.add("bot")
+    taskBot.appendChild(priority);
+    taskBot.appendChild(editBtn);
+    taskBot.appendChild(deleteBtn);
+    taskBot.classList.add("bot");
 
     // taskTop Includes title and date
-    
+
     const taskTop = document.createElement("div");
-    const taskTitle = document.createElement("h4")
+    const taskTitle = document.createElement("h4");
     const dateP = document.createElement("p");
-    taskTop.classList.add("top")
+    taskTop.classList.add("top");
     taskTop.appendChild(taskTitle);
     taskTop.appendChild(dateP);
     taskTitle.innerHTML = `${task.description}`;
@@ -177,10 +177,11 @@ function displayTasks(project) {
         if (!dateEdit) return;
         // Format the date using date-fns
         const formattedDate = format(dateEdit, "MM-dd-yyyy");
-        task.editTask(description.value, priority.value, formattedDate);
+        task.editTask(description.value, prioritySelect.value, formattedDate);
         displayTasks(project);
         createTaskForm(project);
         dialog.close();
+        editForm.reset();
       });
     });
     deleteBtn.classList.add("delete");
