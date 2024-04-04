@@ -13,9 +13,24 @@ body {
     "sidebar header"
     "sidebar main";
 }
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px lightgray;
+}
+
+h4 {
+  font-weight: 400;
+}
+.bot {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #007bff;
+}
 
 header {
-  background-color: #3498db;
+  background-color: #007bff;
   grid-area: header;
   display: flex;
   align-items: center;
@@ -38,17 +53,16 @@ main {
   gap: 20px;
   color: #333333;
 }
-main div {
+.taskDiv {
   font-size: 24px;
   display: flex;
-  gap: 15px;
-  height: 30px;
 
-  align-items: center;
+  height: 50px;
+  width: 500px;
+  flex-direction: column;
 }
 p {
   width: max-content;
-  display: block;
 }
 main h1 {
   font-size: 30px;
@@ -63,14 +77,14 @@ main h1 {
   font-family: "Arial", sans-serif;
 }
 .sidebar h1 {
-    font-family: "Montserrat", sans-serif;
-    font-size: 40px;
-    font-weight: bold;
-    color: #007bff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-    letter-spacing: 1px;
-    margin: 10px 0;
-  }
+  font-family: "Montserrat", sans-serif;
+  font-size: 40px;
+  font-weight: bold;
+  color: #007bff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  letter-spacing: 1px;
+  margin: 2px 0;
+}
 h3 {
   margin-top: 70px;
   font-size: 30px;
@@ -174,6 +188,7 @@ li button:hover {
   background: url(./modify.svg) center / contain no-repeat;
   cursor: pointer;
   transition: transform 0.2s ease;
+  margin-left: auto;
 }
 .edit:hover {
   transform: scale(1.2); /* Scale the button when hovered */

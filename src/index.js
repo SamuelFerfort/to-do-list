@@ -143,8 +143,30 @@ function displayTasks(project) {
   const tasksLeft = document.createElement("h1");
   tasksLeft.innerHTML = `${project.tasks.length} Tasks Remaining`;
   main.appendChild(tasksLeft);
+  
   project.tasks.forEach((task) => {
+    // taskContainer
+    const div = document.createElement("div");
+    // taskBot includes priority delete and edit button
+    
+    const taskBot = document.createElement("div");
+    const deleteBtn = document.createElement("button");
     const editBtn = document.createElement("button");
+    const priority = document.createElement("p");
+    taskBot.appendChild(priority)
+    taskBot.appendChild(editBtn)
+    taskBot.appendChild(deleteBtn)
+    taskBot.classList.add("bot")
+
+    // taskTop Includes title and date
+    
+    const taskTop = document.createElement("div");
+    const taskTitle = document.createElement("h4")
+    const dateP = document.createElement("p");
+    taskTop.classList.add("top")
+    taskTop.appendChild(taskTitle);
+    taskTop.appendChild(dateP);
+    taskTitle.innerHTML = `${task.description}`;
     editBtn.classList.add("edit");
 
     editBtn.addEventListener("click", () => {
@@ -161,7 +183,6 @@ function displayTasks(project) {
         dialog.close();
       });
     });
-    const deleteBtn = document.createElement("button");
     deleteBtn.classList.add("delete");
     deleteBtn.innerHTML = "X";
     deleteBtn.addEventListener("click", () => {
@@ -169,26 +190,20 @@ function displayTasks(project) {
       displayTasks(project);
       createTaskForm(project);
     });
-    const div = document.createElement("div");
-    const p = document.createElement("p");
-    p.innerHTML = ` ${task.priority}`;
+    priority.innerHTML = ` ${task.priority}`;
     if (task.priority == "High") {
-      p.classList.add("high");
+      priority.classList.add("high");
     } else if (task.priority == "Medium") {
-      p.classList.add("medium");
+      priority.classList.add("medium");
     } else {
-      p.classList.add("low");
+      priority.classList.add("low");
     }
-    const dateP = document.createElement("p");
     dateP.classList.add("date");
     dateP.innerHTML = `${task.dueDate}`;
 
     div.classList.add("taskDiv");
-    div.innerHTML = `${task.description}`;
-    div.appendChild(p);
-    div.appendChild(dateP);
-    div.appendChild(deleteBtn);
-    div.appendChild(editBtn);
+    div.appendChild(taskTop);
+    div.appendChild(taskBot);
 
     main.appendChild(div);
   });
@@ -211,10 +226,9 @@ const gymTask1 = new Task("Cardio", "High", "11-03-2024");
 const gymTask2 = new Task("Bench Press", "Medium", "11-03-2024");
 const gymTask3 = new Task("Lifting", "Low", "11-03-2024");
 
-gym.addTask(gymTask1)
-gym.addTask(gymTask2)
-gym.addTask(gymTask3)
-
+gym.addTask(gymTask1);
+gym.addTask(gymTask2);
+gym.addTask(gymTask3);
 
 function populatePage(defaultProject) {
   // Create a default project
@@ -226,8 +240,6 @@ function populatePage(defaultProject) {
 
   ul.appendChild(li);
   li.appendChild(button);
-
-  
 
   button.addEventListener("click", () => {
     main.innerHTML = "";
@@ -247,5 +259,4 @@ function populatePage(defaultProject) {
 document.addEventListener("DOMContentLoaded", function () {
   populatePage(code);
   populatePage(gym);
-  
 });
