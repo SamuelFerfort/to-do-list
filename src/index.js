@@ -131,6 +131,8 @@ function createTaskForm(project) {
     project.addTask(task);
     displayTasks(project);
     createTaskForm(project);
+    // Save data to localStorage after removing a task
+    saveDataToLocalStorage(project);
   });
 }
 
@@ -190,6 +192,7 @@ function displayTasks(project) {
       project.removeTask(task);
       displayTasks(project);
       createTaskForm(project);
+
     });
     priority.innerHTML = ` ${task.priority}`;
     if (task.priority == "High") {
@@ -247,6 +250,8 @@ function populatePage(defaultProject) {
 
     displayTasks(defaultProject);
     createTaskForm(defaultProject);
+      // Save data to localStorage after removing a task
+    saveDataToLocalStorage(defaultProject);
 
     document.querySelector(".projectName").value = "";
   });
@@ -261,3 +266,16 @@ document.addEventListener("DOMContentLoaded", function () {
   populatePage(code);
   populatePage(gym);
 });
+
+function saveDataToLocalStorage(project) {
+  // Retrieve existing projects from localStorage
+  const projects = retrieveDataFromLocalStorage();
+  // Add the new project to the array
+  projects.push(project);
+  // Convert projects to JSON string
+  const projectsJSON = JSON.stringify(projects);
+  // Save projects to localStorage
+  localStorage.setItem("projects", projectsJSON);
+}
+
+
