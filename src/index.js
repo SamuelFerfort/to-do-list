@@ -11,7 +11,7 @@ const editForm = document.querySelector(".editForm");
 const prioritySelect = document.querySelector("#priority");
 const description = document.querySelector("#description");
 const date = document.querySelector("#taskDate");
-
+const error = document.querySelector(".error");
 class Project {
   constructor(title) {
     this.title = title;
@@ -83,7 +83,7 @@ function createTaskForm(project) {
   const dueDateInput = document.createElement("input");
   dueDateInput.setAttribute("type", "date");
   dueDateInput.setAttribute("placeholder", "Select due date");
-
+  const errorSpan = document.createElement("span");
   const submitBtn = document.createElement("button");
   submitBtn.setAttribute("type", "submit");
   submitBtn.innerHTML = "+";
@@ -116,12 +116,30 @@ function createTaskForm(project) {
 
   taskForm.addEventListener("submit", (event) => {
     event.preventDefault();
-
     // Parse the string date into a JavaScript Date object
     const dueDate = new Date(dueDateInput.value);
-    if (!dueDate) return;
+    if (taskDescription.value === "" || taskDescription.value == null) {
+      errorSpan.innerHTML = "Task Required!";
+      main.appendChild(errorSpan);
+      taskDescription.classList.add("error");
+      return;
+    }
+    if (taskDescription.value.length > 10) {
+      errorSpan.innerHTML = "Too long!";
+      main.appendChild(errorSpan);
+      taskDescription.classList.add("error");
+      return;
+    }
+    if (!dueDateInput.value) {
+      dueDateInput.classList.add("error");
+      errorSpan.classList.add("dateError");
+      errorSpan.innerHTML = "Invalid Date";
+      main.appendChild(errorSpan);
+      return
+    }
     // Format the date using date-fns
     const formattedDueDate = format(dueDate, "MM-dd-yyyy");
+    console.log(taskDescription.value.length);
 
     const task = new Task(
       taskDescription.value,
@@ -132,7 +150,6 @@ function createTaskForm(project) {
     displayTasks(project);
     createTaskForm(project);
     // Save data to localStorage after removing a task
-    saveDataToLocalStorage(project);
   });
 }
 
@@ -192,7 +209,6 @@ function displayTasks(project) {
       project.removeTask(task);
       displayTasks(project);
       createTaskForm(project);
-
     });
     priority.innerHTML = ` ${task.priority}`;
     if (task.priority == "High") {
@@ -226,7 +242,7 @@ code.addTask(task3);
 
 const gym = new Project("Gym");
 
-const gymTask1 = new Task("Cardio", "High", "11-03-2024");
+const gymTask1 = new Task("Cardio", "High", "11-04-2024");
 const gymTask2 = new Task("Bench Press", "Medium", "11-03-2024");
 const gymTask3 = new Task("Lifting", "Low", "11-03-2024");
 
@@ -250,8 +266,7 @@ function populatePage(defaultProject) {
 
     displayTasks(defaultProject);
     createTaskForm(defaultProject);
-      // Save data to localStorage after removing a task
-    saveDataToLocalStorage(defaultProject);
+    // Save data to localStorage after removing a task
 
     document.querySelector(".projectName").value = "";
   });
@@ -266,16 +281,4 @@ document.addEventListener("DOMContentLoaded", function () {
   populatePage(code);
   populatePage(gym);
 });
-
-function saveDataToLocalStorage(project) {
-  // Retrieve existing projects from localStorage
-  const projects = retrieveDataFromLocalStorage();
-  // Add the new project to the array
-  projects.push(project);
-  // Convert projects to JSON string
-  const projectsJSON = JSON.stringify(projects);
-  // Save projects to localStorage
-  localStorage.setItem("projects", projectsJSON);
-}
-
 

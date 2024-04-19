@@ -70,7 +70,7 @@ main h1 {
   text-align: center;
   width: 500px;
   border-radius: 18px;
-  background-color: lightgray;  
+  background-color: lightgray;
   font-weight: 500;
 }
 
@@ -291,3 +291,18 @@ dialog {
   bottom: 0;
   margin: auto;
 }
+.error {
+  outline: 1px solid red;
+}
+
+span {
+  color: red;
+  font-weight: bold;
+  margin-top: -10px;
+  font-size: 1.2rem;
+}
+.dateError {
+  margin-left: 410px;
+}
+
+
