@@ -1,5 +1,9 @@
 # Doable: A Todo Application
 
+#### Video Demo: https://youtu.be/dv5Sr5_Qr2I
+
+# Introduction
+
 Doable is a simple and intuitive Todo application built entirely with vanilla CSS and JavaScript. It aims to provide users with a hassle-free experience for managing their tasks, enhanced with form validation to ensure data integrity. Leveraging modern web development practices, Doable utilizes npm for package management and webpack for bundling modules, making it easy to maintain and extend.
 
 ## Features and Design Choices
