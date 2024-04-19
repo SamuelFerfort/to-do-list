@@ -11,7 +11,7 @@ const editForm = document.querySelector(".editForm");
 const prioritySelect = document.querySelector("#priority");
 const description = document.querySelector("#description");
 const date = document.querySelector("#taskDate");
-const error = document.querySelector(".error");
+let projects = [];
 class Project {
   constructor(title) {
     this.title = title;
@@ -28,6 +28,19 @@ class Project {
       this.tasks.splice(index, 1);
     }
   }
+  toJSON() {
+    return {
+      title: this.title,
+      tasks: this.tasks,
+    };
+  }
+  static fromJSON(json) {
+    const project = new Project(json.title);
+    project.tasks = json.tasks.map(
+      (task) => new Task(task.description, task.priority, task.dueDate)
+    );
+    return project;
+  }
 }
 
 class Task {
@@ -41,18 +54,35 @@ class Task {
     this.priority = newPriority;
     this.dueDate = newDueDate;
   }
+  toJSON() {
+    return {
+      description: this.description,
+      dueDate: this.dueDate,
+      priority: this.priority,
+    };
+  }
+
+  // Deserialize the JSON object into a Task object
+  static fromJSON(json) {
+    return new Task(json.description, json.priority, json.dueDate);
+  }
 }
 
 ProjectBtn.addEventListener("submit", (e) => {
   e.preventDefault();
-  newProject();
+  let projectName = document.querySelector(".projectName").value;
+  if (!projectName) return;
+  const project = new Project(projectName);
+  projects.push(project);
+  populatePage(projects);
+  saveToLocalStorage();
+  document.querySelector(".projectName").value = "";
 });
 
 function newProject() {
   const li = document.createElement("li");
   const button = document.createElement("button");
   let projectName = document.querySelector(".projectName").value;
-
   if (!projectName) return;
 
   button.innerHTML = projectName;
@@ -64,13 +94,15 @@ function newProject() {
   // Change to the new project when adding it
   displayTasks(project);
   createTaskForm(project);
+  document.querySelector(".projectName").value = "";
+  projects.push(project);
+  saveToLocalStorage();
+
   button.addEventListener("click", () => {
     main.innerHTML = "";
 
     displayTasks(project);
     createTaskForm(project);
-
-    document.querySelector(".projectName").value = "";
   });
 }
 
@@ -135,7 +167,7 @@ function createTaskForm(project) {
       errorSpan.classList.add("dateError");
       errorSpan.innerHTML = "Invalid Date";
       main.appendChild(errorSpan);
-      return
+      return;
     }
     // Format the date using date-fns
     const formattedDueDate = format(dueDate, "MM-dd-yyyy");
@@ -149,6 +181,8 @@ function createTaskForm(project) {
     project.addTask(task);
     displayTasks(project);
     createTaskForm(project);
+    saveToLocalStorage();
+
     // Save data to localStorage after removing a task
   });
 }
@@ -201,6 +235,7 @@ function displayTasks(project) {
         createTaskForm(project);
         dialog.close();
         editForm.reset();
+        saveToLocalStorage();
       });
     });
     deleteBtn.classList.add("delete");
@@ -209,6 +244,7 @@ function displayTasks(project) {
       project.removeTask(task);
       displayTasks(project);
       createTaskForm(project);
+      saveToLocalStorage();
     });
     priority.innerHTML = ` ${task.priority}`;
     if (task.priority == "High") {
@@ -250,35 +286,74 @@ gym.addTask(gymTask1);
 gym.addTask(gymTask2);
 gym.addTask(gymTask3);
 
-function populatePage(defaultProject) {
-  // Create a default project
+function populatePage(projects) {
+  ul.innerHTML = "";
+  projects.forEach((project, index) => {
+    const li = document.createElement("li");
+    const button = document.createElement("button");
+    const deleteProjectBtn = document.createElement("button");
+    deleteProjectBtn.classList.add("deleteProjectBtn");
+    deleteProjectBtn.innerHTML = "X";
 
-  const li = document.createElement("li");
-  const button = document.createElement("button");
+    button.innerHTML = project.title;
 
-  button.innerHTML = defaultProject.title;
+    ul.appendChild(li);
+    li.appendChild(button);
+    li.appendChild(deleteProjectBtn);
 
-  ul.appendChild(li);
-  li.appendChild(button);
+    button.addEventListener("click", () => {
+      main.innerHTML = "";
 
-  button.addEventListener("click", () => {
-    main.innerHTML = "";
+      displayTasks(project);
+      createTaskForm(project);
+      // Save data to localStorage after removing a task
+      document.querySelector(".projectName").value = "";
+    });
+    // Display the default project and its tasks
+    deleteProjectBtn.addEventListener("click", () => {
+      projects.splice(index, 1);
+      main.innerHTML = "";
+      header.innerHTML = "";
+      populatePage(projects);
 
-    displayTasks(defaultProject);
-    createTaskForm(defaultProject);
-    // Save data to localStorage after removing a task
-
-    document.querySelector(".projectName").value = "";
+      saveToLocalStorage();
+    });
+    displayTasks(project);
+    createTaskForm(project);
   });
-  // Display the default project and its tasks
-
-  displayTasks(defaultProject);
-  createTaskForm(defaultProject);
 }
 
 // Call the function to populate the page when the DOM is ready
 document.addEventListener("DOMContentLoaded", function () {
-  populatePage(code);
-  populatePage(gym);
+  retrieveStoredProject();
 });
 
+function saveToLocalStorage() {
+  const projectsJSON = JSON.stringify(
+    projects.map((project) => {
+      return {
+        title: project.title,
+        tasks: project.tasks.map((task) => task.toJSON()), // Serialize tasks
+      };
+    })
+  );
+  localStorage.setItem("projects", projectsJSON);
+}
+
+function retrieveStoredProject() {
+  const storedProjects = localStorage.getItem("projects");
+  if (storedProjects) {
+    const projectsData = JSON.parse(storedProjects);
+    projects = projectsData.map((projectData) => {
+      const project = new Project(projectData.title);
+      project.tasks = projectData.tasks.map((taskData) =>
+        Task.fromJSON(taskData)
+      ); // Deserialize tasks
+      return project;
+    });
+  } else {
+    projects = [];
+  }
+
+  populatePage(projects);
+}

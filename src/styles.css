@@ -105,7 +105,7 @@ li button {
   font-size: 22px;
   cursor: pointer;
 }
-li button:hover {
+li > button:hover {
   color: #2c3e50; /* Slightly darker shade of the background color */
   text-decoration: underline;
 }
@@ -183,6 +183,7 @@ li button:hover {
 
 .delete:hover {
   background-color: #ffcccc;
+  transform: scale(1.2);
 }
 .edit {
   cursor: pointer;
@@ -304,5 +305,15 @@ span {
 .dateError {
   margin-left: 410px;
 }
+.deleteProjectBtn {
+  color: red;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  margin-left: 8px;
+}
 
-
+.deleteProjectBtn:hover {
+  color: red;
+  transform: scale(1.2);
+}
