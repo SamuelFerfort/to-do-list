@@ -174,16 +174,16 @@ li > button:hover {
   color: red;
   border: none;
   background-color: #ffffff;
-  border-radius: 4px;
+  border-radius: 50px;
   cursor: pointer;
-  font-size: 16px;
-  padding: 8px 12px;
+  font-size: 17px;
+  padding: 4px 6px;
   transition: background-color 0.3s ease;
 }
 
 .delete:hover {
   background-color: #ffcccc;
-  transform: scale(1.2);
+  transform: scale(1.1);
 }
 .edit {
   cursor: pointer;
