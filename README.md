@@ -1,18 +1,58 @@
-# Doable
-#### Video Demo: https://youtu.be/dv5Sr5_Qr2I
+# Doable: A Todo Application
 
-# Introduction
-This project is a Todo application built entirely with vanilla CSS and JavaScript, enhanced with form validation. The application leverages npm for package management and webpack for bundling modules. It utilizes classes and local storage for managing Todo items. The inclusion of form validation ensures that users are prompted to enter valid input when adding new tasks, enhancing the overall user experience.
+Doable is a simple and intuitive Todo application built entirely with vanilla CSS and JavaScript. It aims to provide users with a hassle-free experience for managing their tasks, enhanced with form validation to ensure data integrity. Leveraging modern web development practices, Doable utilizes npm for package management and webpack for bundling modules, making it easy to maintain and extend.
 
-## Functionality and Design Choices
-- **Project Class**: The Project class represents a Todo project with a title and an array of tasks. It includes methods to add and remove tasks, as well as toJSON() and fromJSON() methods for serialization and deserialization.
-- **Task Class**: The Task class represents a Todo task with a description, priority, and due date. It includes methods to edit the task remove the task and toJSON() and fromJSON() methods for serialization and deserialization.
-- **Form Validation**: Form validation is implemented to ensure that users enter valid input when adding new tasks. Error messages are displayed if the input is invalid.
-- **Dynamic HTML Generation**: The main part of the HTML structure is generated dynamically using JavaScript. This approach enhances flexibility and allows for easier maintenance.
-- **Local Storage**: Data persistence is achieved using the browser's local storage. Projects and tasks are serialized to JSON before being stored and deserialized when retrieved.
-- **Webpack**: Webpack is utilized as the module bundler for this project. It enables efficient bundling of JavaScript, CSS, and other assets, optimizing the performance and loading times of the application.
-- **Npm**: Npm serves as the package manager for this project, facilitating the installation and management of dependencies. It allows me to easily include external libraries like date-fns to format my date inputs.
+## Features and Design Choices
 
+### 1. **Simplicity and Usability**
 
+- Doable prioritizes simplicity and usability, offering an intuitive interface for users to manage their tasks effortlessly.
+- The minimalist design ensures that users can focus on their tasks without distractions, promoting productivity.
 
+### 2. **Project and Task Management**
 
+- Doable allows users to create multiple projects, each containing a list of tasks.
+- Users can easily add, edit, and delete tasks within each project, providing flexibility in task management.
+
+### 3. **Data Persistence**
+
+- The application leverages the browser's local storage to persist user data, ensuring that tasks and projects are saved even after the browser is closed.
+- Serialized data is stored efficiently in JSON format, allowing for seamless retrieval and manipulation.
+
+## Technical Details
+
+### 1. **Webpack and npm Integration**
+
+- Doable utilizes webpack as the module bundler and npm as the package manager.
+- webpack facilitates efficient bundling of JavaScript, CSS, and other assets, optimizing performance and loading times.
+- npm simplifies dependency management, allowing for easy installation and updating of project dependencies.
+
+### 2. **Class-Based Architecture**
+
+- The application architecture follows a class-based approach, enhancing code organization and maintainability.
+- Classes are used to represent projects and tasks, encapsulating related data and functionality within each object.
+
+### 3. **Dynamic HTML Generation**
+
+- The main HTML structure is generated dynamically using JavaScript, providing flexibility and ease of maintenance.
+- DOM manipulation techniques are employed to create, update, and remove HTML elements based on user interactions.
+
+### 4. **Form Validation with JavaScript**
+
+- JavaScript is utilized to implement form validation, ensuring that user input meets specified criteria before submission.
+- Custom validation logic is applied to validate task descriptions, priorities, and due dates, enhancing the overall user experience.
+- Error messages are displayed in real-time, providing immediate feedback to users and guiding them to correct any invalid inputs.
+
+## Technologies Used
+
+### 1. Vanilla CSS
+
+Doable utilizes vanilla CSS for styling the user interface. By avoiding reliance on external CSS frameworks, the application achieves lightweight and customizable styling tailored to its specific requirements. The website layout is made with css grid including a sidebar a header and a main part where the JavaScript is dynamically generated.
+
+### 2. Vanilla JavaScript
+
+JavaScript is the backbone of Doable, providing the logic and interactivity necessary for task management and user interaction. With a focus on vanilla JavaScript, the application ensures maximum compatibility and performance across different browsers and environments. I separated the classes from the logic in different files using imports and exports leveraging modular design to make the project easier to manage.
+
+### 3. Local Storage API
+
+The Local Storage API is employed to persist user data within the browser. By storing tasks and projects locally, Doable ensures that users can access their task lists even after closing the browser or navigating away from the application.
