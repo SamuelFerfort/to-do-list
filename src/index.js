@@ -1,6 +1,7 @@
 import style from "./styles.css";
 import { format } from "date-fns";
 import image from "./modify.svg";
+import { Project, Task } from "./models.js";
 
 const ProjectBtn = document.querySelector(".sideForm");
 const ul = document.querySelector("ul");
@@ -12,61 +13,6 @@ const prioritySelect = document.querySelector("#priority");
 const description = document.querySelector("#description");
 const date = document.querySelector("#taskDate");
 let projects = [];
-class Project {
-  constructor(title) {
-    this.title = title;
-    this.tasks = [];
-  }
-
-  addTask(task) {
-    this.tasks.push(task);
-  }
-
-  removeTask(task) {
-    const index = this.tasks.indexOf(task);
-    if (index !== -1) {
-      this.tasks.splice(index, 1);
-    }
-  }
-  toJSON() {
-    return {
-      title: this.title,
-      tasks: this.tasks,
-    };
-  }
-  static fromJSON(json) {
-    const project = new Project(json.title);
-    project.tasks = json.tasks.map(
-      (task) => new Task(task.description, task.priority, task.dueDate)
-    );
-    return project;
-  }
-}
-
-class Task {
-  constructor(description, priority, dueDate) {
-    this.description = description;
-    this.dueDate = dueDate;
-    this.priority = priority;
-  }
-  editTask(newDescription, newPriority, newDueDate) {
-    this.description = newDescription;
-    this.priority = newPriority;
-    this.dueDate = newDueDate;
-  }
-  toJSON() {
-    return {
-      description: this.description,
-      dueDate: this.dueDate,
-      priority: this.priority,
-    };
-  }
-
-  // Deserialize the JSON object into a Task object
-  static fromJSON(json) {
-    return new Task(json.description, json.priority, json.dueDate);
-  }
-}
 
 ProjectBtn.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -78,33 +24,6 @@ ProjectBtn.addEventListener("submit", (e) => {
   saveToLocalStorage();
   document.querySelector(".projectName").value = "";
 });
-
-function newProject() {
-  const li = document.createElement("li");
-  const button = document.createElement("button");
-  let projectName = document.querySelector(".projectName").value;
-  if (!projectName) return;
-
-  button.innerHTML = projectName;
-
-  ul.appendChild(li);
-  li.appendChild(button);
-  const project = new Project(projectName);
-
-  // Change to the new project when adding it
-  displayTasks(project);
-  createTaskForm(project);
-  document.querySelector(".projectName").value = "";
-  projects.push(project);
-  saveToLocalStorage();
-
-  button.addEventListener("click", () => {
-    main.innerHTML = "";
-
-    displayTasks(project);
-    createTaskForm(project);
-  });
-}
 
 function createTaskForm(project) {
   const taskForm = document.createElement("form");
@@ -264,27 +183,6 @@ function displayTasks(project) {
     main.appendChild(div);
   });
 }
-
-const code = new Project("Code");
-
-// Add tasks to the default project
-const task1 = new Task("JavaScript", "High", "11-03-2024");
-const task2 = new Task("Python", "Medium", "11-03-2024");
-const task3 = new Task("C", "Low", "11-03-2024");
-
-code.addTask(task1);
-code.addTask(task2);
-code.addTask(task3);
-
-const gym = new Project("Gym");
-
-const gymTask1 = new Task("Cardio", "High", "11-04-2024");
-const gymTask2 = new Task("Bench Press", "Medium", "11-03-2024");
-const gymTask3 = new Task("Lifting", "Low", "11-03-2024");
-
-gym.addTask(gymTask1);
-gym.addTask(gymTask2);
-gym.addTask(gymTask3);
 
 function populatePage(projects) {
   ul.innerHTML = "";
