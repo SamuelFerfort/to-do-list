@@ -185,6 +185,8 @@ function displayTasks(project) {
 }
 
 function populatePage(projects) {
+  if (projects.length === 0) header.innerHTML = "<h1>No Projects Yet</h1>";
+  console.log("hello?");
   ul.innerHTML = "";
   projects.forEach((project, index) => {
     const li = document.createElement("li");
