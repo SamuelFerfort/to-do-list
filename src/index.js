@@ -227,12 +227,7 @@ function populatePage(projects) {
     createTaskForm(project);
   });
 }
-function clearErrors() {
-  errorSpan.innerHTML = ""; // Clear any previous error messages
-  taskDescription.classList.remove("error"); // Remove error class from taskDescription input
-  dueDateInput.classList.remove("error"); // Remove error class from dueDateInput input
-  errorSpan.classList.remove("empty", "dateError"); // Remove any other error-related classes from errorSpan
-}
+
 
 // Call the function to populate the page when the DOM is ready
 document.addEventListener("DOMContentLoaded", function () {
