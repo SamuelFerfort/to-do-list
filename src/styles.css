@@ -305,6 +305,9 @@ span {
 .dateError {
   margin-left: 410px;
 }
+.empty {
+  margin-left: 0px;
+}
 .deleteProjectBtn {
   color: red;
   border: none;

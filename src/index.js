@@ -67,12 +67,15 @@ function createTaskForm(project) {
 
   taskForm.addEventListener("submit", (event) => {
     event.preventDefault();
+
     // Parse the string date into a JavaScript Date object
     const dueDate = new Date(dueDateInput.value);
     if (taskDescription.value === "" || taskDescription.value == null) {
       errorSpan.innerHTML = "Task Required!";
+      errorSpan.classList.add("empty");
       main.appendChild(errorSpan);
       taskDescription.classList.add("error");
+
       return;
     }
     if (taskDescription.value.length > 10) {
@@ -82,6 +85,8 @@ function createTaskForm(project) {
       return;
     }
     if (!dueDateInput.value) {
+      taskDescription.classList.remove("error");
+      errorSpan.classList.remove("empty")
       dueDateInput.classList.add("error");
       errorSpan.classList.add("dateError");
       errorSpan.innerHTML = "Invalid Date";
@@ -185,6 +190,8 @@ function displayTasks(project) {
 }
 
 function populatePage(projects) {
+  if (projects.length === 0) header.innerHTML = "<h1>No Projects</h1>";
+
   ul.innerHTML = "";
   projects.forEach((project, index) => {
     const li = document.createElement("li");
@@ -219,6 +226,12 @@ function populatePage(projects) {
     displayTasks(project);
     createTaskForm(project);
   });
+}
+function clearErrors() {
+  errorSpan.innerHTML = ""; // Clear any previous error messages
+  taskDescription.classList.remove("error"); // Remove error class from taskDescription input
+  dueDateInput.classList.remove("error"); // Remove error class from dueDateInput input
+  errorSpan.classList.remove("empty", "dateError"); // Remove any other error-related classes from errorSpan
 }
 
 // Call the function to populate the page when the DOM is ready
